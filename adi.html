@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3 Photo Gallery</title>
+  <style>
+    /* --- RESET --- */
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:Arial, sans-serif; color:#fff; min-height:100vh; overflow-x:hidden;}
+
+    /* --- ANIMATED BACKGROUND --- */
+    body::before{
+      content:"";
+      position:fixed; top:0; left:0; right:0; bottom:0;
+      z-index:-2;
+      background: linear-gradient(270deg,#000,#111,#222,#111,#000);
+      background-size:1000% 1000%;
+      animation:moveBG 30s linear infinite;
+    }
+    body::after{
+      content:"";
+      position:fixed; top:0; left:0; right:0; bottom:0;
+      z-index:-1;
+      background-image:
+        radial-gradient(2px 2px at 20% 30%, rgba(255,255,255,0.3) 50%, transparent 50%),
+        radial-gradient(1px 1px at 80% 70%, rgba(255,255,255,0.2) 50%, transparent 50%),
+        radial-gradient(2px 2px at 50% 90%, rgba(255,255,255,0.25) 50%, transparent 50%);
+      background-repeat:repeat;
+      background-size:300px 300px;
+      animation:starsMove 60s linear infinite;
+    }
+    @keyframes moveBG{
+      0%{background-position:0% 50%;}
+      50%{background-position:100% 50%;}
+      100%{background-position:0% 50%;}
+    }
+    @keyframes starsMove{
+      from{background-position:0 0,0 0,0 0;}
+      to{background-position:-1000px -500px,-800px -400px,-600px -300px;}
+    }
+
+    /* --- CONTAINER --- */
+    .container{
+      max-width:900px;
+      margin:40px auto;
+      padding:0 16px;
+      position: relative; z-index:1;
+    }
+    h1{text-align:center;margin-bottom:20px;font-size:26px;}
+
+    /* --- GALLERY --- */
+    .gallery{
+      display:grid;
+      grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+      gap:16px;
+    }
+    .thumb{
+      overflow:hidden;
+      border-radius:10px;
+      cursor:zoom-in;
+      position: relative; z-index:2;
+      transition: transform .2s;
+    }
+    .thumb img{
+      width:100%; height:100%; object-fit:cover; display:block;
+      transition: transform .3s;
+    }
+    .thumb:hover img{transform:scale(1.1);}
+
+    /* --- LIGHTBOX --- */
+    .lightbox{
+      position:fixed; inset:0;
+      display:none; align-items:center; justify-content:center;
+      background:rgba(0,0,0,0.85);
+      z-index:1000;
+    }
+    .lightbox.open{display:flex;}
+    .lightbox img{
+      max-width:90%; max-height:90%;
+      border-radius:8px;
+      animation:pop .3s ease;
+    }
+    @keyframes pop{
+      from{transform:scale(.9); opacity:0;}
+      to{transform:scale(1); opacity:1;}
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>WELCOME BRO HERE IT'S YOUR CUTS</h1>
+    <div class="gallery" id="gallery">
+      <!-- 3 Photos: replace src with your own images -->
+      <div class="thumb"><img src="adi1.jpg" alt="Photo 1"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- --- LIGHTBOX --- -->
+  <div class="lightbox" id="lightbox">
+    <img src="" alt="">
+  </div>
+
+  <script>
+    // Lightbox functionality
+    const gallery = document.getElementById('gallery');
+    const lightbox = document.getElementById('lightbox');
+    const lbImg = lightbox.querySelector('img');
+
+    gallery.addEventListener('click', e => {
+      const img = e.target.closest('img');
+      if (!img) return;
+      lbImg.src = img.src;
+      lightbox.classList.add('open');
+    });
+
+    lightbox.addEventListener('click', ()=> lightbox.classList.remove('open'));
+
+    document.addEventListener('keydown', e=>{
+      if(e.key==='Escape') lightbox.classList.remove('open');
+    });
+  </script>
+</body>
+</html>
