@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Futuristic Login Page</title>
+  <script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Arial', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg,#0a0a0a,#020b1a);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      position: relative;
+      color: #fff;
+    }
+
+    #tsparticles {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+
+    .login-box {
+      position: relative;
+      z-index: 1;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 15px;
+      padding: 40px;
+      width: 320px;
+      text-align: center;
+      box-shadow: 0 0 30px rgba(0, 255, 255, 0.2);
+      animation: fadeInUp 0.8s ease;
+    }
+
+    .login-box::before {
+      content: '';
+      position: absolute;
+      inset: -2px;
+      border-radius: 17px;
+      background: linear-gradient(45deg,#00ffff,#ff00ff,#00ffff);
+      z-index: -1;
+      filter: blur(15px);
+      opacity: 0.3;
+      animation: borderGlow 4s linear infinite;
+    }
+
+    @keyframes borderGlow {
+      0%{background-position:0% 50%}
+      50%{background-position:100% 50%}
+      100%{background-position:0% 50%}
+    }
+
+    .login-box h2 {
+      margin-bottom: 10px;
+      font-size: 1.6em;
+      color: #00ffff;
+      letter-spacing: 1px;
+    }
+
+    .login-box p {
+      margin-bottom: 20px;
+      font-size: 0.9em;
+      color: #bbb;
+    }
+
+    .input-group {
+      position: relative;
+      margin: 8px 0;
+    }
+
+    .input-group i {
+      position: absolute;
+      top: 50%;
+      left: 10px;
+      transform: translateY(-50%);
+      color: #00ffff;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 10px 10px 10px 35px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 5px;
+      color: #fff;
+    }
+
+    .input-group input:focus {
+      outline: none;
+      border-color: #00ffff;
+      box-shadow: 0 0 10px #00ffff55;
+    }
+
+    .login-box button {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      background: #00ffff;
+      color: #000;
+      font-weight: bold;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .login-box button:hover {
+      background: #00cccc;
+      box-shadow: 0 0 15px #00ffff55;
+      transform: scale(1.02);
+    }
+
+    @keyframes fadeInUp {
+      0% {opacity: 0; transform: translateY(30px);}
+      100% {opacity: 1; transform: translateY(0);}
+    }
+
+    /* vibrate animation */
+    @keyframes vibrate {
+      0% { transform: translateX(0);}
+      20% { transform: translateX(-5px);}
+      40% { transform: translateX(5px);}
+      60% { transform: translateX(-5px);}
+      80% { transform: translateX(5px);}
+      100% { transform: translateX(0);}
+    }
+    .vibrate {
+      animation: vibrate 0.3s linear 3;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Animated Background -->
+  <div id="tsparticles"></div>
+
+  <!-- Login Box -->
+  <div class="login-box" id="loginBox">
+    <h2>LOGIN</h2>
+    <p>Welcome Back</p>
+    <!-- ✅ added autocomplete off -->
+    <form id="loginForm" autocomplete="off">
+      <div class="input-group">
+        <i class="fa fa-user"></i>
+        <input type="text" id="username" placeholder="Username" required autocomplete="off">
+      </div>
+      <div class="input-group">
+        <i class="fa fa-lock"></i>
+        <input type="password" id="password" placeholder="Password" required autocomplete="new-password">
+      </div>
+      <button type="submit">SIGN IN</button>
+    </form>
+  </div>
+
+  <script>
+    // particles
+    tsParticles.load("tsparticles", {
+      background: { color: "#0a0a0a" },
+      fpsLimit: 60,
+      particles: {
+        number: { value: 80 },
+        color: { value: "#00ffff" },
+        links: {
+          enable: true,
+          color: "#00ffff",
+          distance: 150,
+          opacity: 0.4,
+          width: 1
+        },
+        move: { enable: true, speed: 2 },
+        size: { value: 2 },
+        opacity: { value: 0.5 }
+      },
+      interactivity: {
+        events: {
+          onHover: { enable: true, mode: "repulse" },
+          resize: true
+        },
+        modes: { repulse: { distance: 100 } }
+      },
+      detectRetina: true
+    });
+
+    // ✅ clear fields on load
+    window.addEventListener('load', () => {
+      document.getElementById('username').value = '';
+      document.getElementById('password').value = '';
+    });
+
+    // Login JS
+    const form = document.getElementById('loginForm');
+    const loginBox = document.getElementById('loginBox');
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const user = document.getElementById('username').value.trim();
+      const pass = document.getElementById('password').value.trim();
+
+      if (user === 'Anil' && pass === 'Anil@066') {
+        window.location.href = 'anil.html';
+      } else if (user === 'Adi' && pass === 'Adi@01') {
+        window.location.href = 'adi.html';
+      } else if (user === 'Alok' && pass === 'Alok@07') {
+        window.location.href = 'alok.html';
+      } else if (user === 'Pupu' && pass === 'Pupu@18') {
+        window.location.href = 'pupu.html';
+      } else if (user === 'Jagan' && pass === 'Jagan@40') {
+        window.location.href = '';
+      } else {
+        loginBox.classList.add('vibrate');
+        setTimeout(() => loginBox.classList.remove('vibrate'), 900);
+      }
+    });
+  </script>
+</body>
+</html>
